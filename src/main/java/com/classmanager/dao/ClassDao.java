@@ -16,7 +16,7 @@ import java.util.List;
 * */
 public class ClassDao {
     private static final String FILE_PATH = "classes.csv";
-    private static final String HESDER = "id,calssName"
+    private static final String HESDER = "id,calssName";
 
     //获取所有班级
     public List<ClassInfo> findAll() throws IOException{
@@ -33,7 +33,7 @@ public class ClassDao {
             boolean firstLine = true;
             while ((line = reader.readLine()) != null) {
                 if(firstLine){
-                    firstLine = false'
+                    firstLine = false;
                     continue;
                 }
                 String[] parts = line.split(",");
@@ -77,7 +77,7 @@ public class ClassDao {
         if(findAll().isEmpty()){
             addClass(new ClassInfo(1,"一年级一班"));
             addClass(new ClassInfo(2,"一年级二班"));
-            addClass(new ClassInfo(3."二年级二班"));
+            addClass(new ClassInfo(3,"二年级二班"));
         }
     }
 }
