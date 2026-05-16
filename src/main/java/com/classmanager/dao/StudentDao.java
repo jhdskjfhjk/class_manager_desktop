@@ -4,6 +4,8 @@ import main.java.com.classmanager.entity.Student;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.sql.SQLData;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,11 +51,83 @@ public class StudentDao {
                 String[] parts = line.split(",");//根据“，”分割
                 if (parts.length < 5) continue;
                 Student s = new Student();
+                if(parts.length < 5) continue;
+                s.setStudentNo(parts[0]);
+                s.setName(parts[1]);
+                s.setGender(parts[2]);
+                s.setBirthDate(parts[3].isEmpty()? null : LocalDate.parse(parts[3]));
+                s.setClassId(Integer.parseInt((parts[4])));
 
 
 
 
 
+
+
+            }
+        }
+        return list;
+    }
+
+
+    public void add (Student s) throws IOException {
+        File file = new  File(FILE_PATH);
+        boolean exists = file.exists();
+        try(BufferedWriter writer = new BufferedWriter(
+                new OutputStreamWriter(new FileOutputStream(file , true) , StandardCharsets.UTF_8)
+        )){
+            if (!exists){
+                writer.write(HEADER);
+                writer.newLine();
+            }
+            String birth = s.getBirthDate() != null ? s.getBirthDate().toString() : "";
+
+            writer.write(String.join(",",
+                    s.getStudentNo(),
+                    s.getName(),
+                    s.getGender(),
+                    birth,
+                    String.valueOf((s.getClassId()))));
+            writer.newLine();
+
+
+        }
+    }
+
+
+
+    //修改学生：根据学号（唯一标识）更新，需重写整个文件
+
+    public void update (Student updated) throws IOException {
+        List <Student> all = findAll();
+        for (int i = 0 ; i < all.size() ; i++){
+            if(all.get(i).getStudentNo().equals(updated.getStudentNo())) {
+                all.set(i , updated);
+                break;
+            }
+        }
+        overwriteFile(all);
+
+    }
+
+    private void overwriteFile(List<Student> students) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(
+                new OutputStreamWriter(new FileOutputStream(FILE_PATH),StandardCharsets.UTF_8)
+        )){
+            writer.write(HEADER);
+            writer.newLine();
+            for(Student s : students){
+                String birth = s.getBirthDate() != null ? s.getBirthDate().toString() : "";
+
+                writer.write(String.join(
+                        ",",
+                        s.getStudentNo(),
+                        s.getName(),
+                        s.getGender(),
+                        birth,
+                        String.valueOf(s.getClassId())
+                ));
+                writer.newLine();//开新行
 
             }
         }
