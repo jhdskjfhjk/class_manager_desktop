@@ -56,6 +56,7 @@ public class StudentDao {
                 s.setGender(parts[2]);
                 s.setBirthDate(parts[3].isEmpty()? null : LocalDate.parse(parts[3]));
                 s.setClassId(Integer.parseInt((parts[4])));
+                list.add(s);
             }
         }
         return list;
