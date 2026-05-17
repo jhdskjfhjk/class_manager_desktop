@@ -56,7 +56,7 @@ public class ClassDao {
 
     }
     //添加班级（如果文件不存在则创建并写入表头）
-    public void addClass(ClassInfo c) throws IOException {
+    public void addClass (ClassInfo c) throws IOException {
         File file = new File (FILE_PATH);
         boolean exists = file.exists();
         try (BufferedWriter writer = new BufferedWriter(
