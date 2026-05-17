@@ -22,8 +22,8 @@ public class StudentDao {
     //读取所有学生信息
     public List<Student> findAll() throws IOException {
         List<Student> list = new ArrayList<>();
-        File file = new File(FILE_PATH);
-        if(!file.exists()){
+        File file = new File(FILE_PATH);//指定文件
+        if(!file.exists()){//没有，返回空列表
             return list;
         }
 
@@ -51,25 +51,17 @@ public class StudentDao {
                 String[] parts = line.split(",");//根据“，”分割
                 if (parts.length < 5) continue;
                 Student s = new Student();
-                if(parts.length < 5) continue;
                 s.setStudentNo(parts[0]);
                 s.setName(parts[1]);
                 s.setGender(parts[2]);
                 s.setBirthDate(parts[3].isEmpty()? null : LocalDate.parse(parts[3]));
                 s.setClassId(Integer.parseInt((parts[4])));
-
-
-
-
-
-
-
             }
         }
         return list;
     }
 
-
+    //添加学生
     public void add (Student s) throws IOException {
         File file = new  File(FILE_PATH);
         boolean exists = file.exists();
@@ -109,11 +101,17 @@ public class StudentDao {
         overwriteFile(all);
 
     }
-
+    //删除学生：根据学号删除
+    public void deleteByStudentNo(String studentNo) throws IOException {
+        List<Student> all = findAll();
+        all.removeIf(s -> s.getStudentNo().equals(studentNo));
+        overwriteFile(all);
+    }
+    //内部方法：把列表整体写入文件（覆盖）
     private void overwriteFile(List<Student> students) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(
                 new OutputStreamWriter(new FileOutputStream(FILE_PATH),StandardCharsets.UTF_8)
-        )){
+        )){//标准输入，背下来就好
             writer.write(HEADER);
             writer.newLine();
             for(Student s : students){
