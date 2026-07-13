@@ -28,3 +28,14 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Java 编译产物 ###
+*.class
+
+### 运行时数据文件（程序会自动初始化） ###
+student.csv
+classes.csv
+
+### IDE 个人状态 ###
+.idea/workspace.xml
+.idea/.name
