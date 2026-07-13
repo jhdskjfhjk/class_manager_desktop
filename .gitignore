@@ -35,7 +35,12 @@ bin/
 ### 运行时数据文件（程序会自动初始化） ###
 student.csv
 classes.csv
+**/student.csv
+**/classes.csv
 
 ### IDE 个人状态 ###
 .idea/workspace.xml
 .idea/.name
+
+### Trae / feisuan 项目规则（含本地路径和作者信息） ###
+.feisuan/
